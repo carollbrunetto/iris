@@ -1,5 +1,5 @@
 'use strict'
-const dialogflow = require('dialogflow');
+const dialogflow = require('@google-cloud/dialogflow');
 const structjson = require('./structjson');
 const config = require('../config/keys');
 const {struct} = require('pb-util')
@@ -11,8 +11,8 @@ const credentials = {
 }
 
 const sessionClient = new dialogflow.SessionsClient({projectId, credentials});
-
-const sessionPath = sessionClient.sessionPath(config.googleProjectId, config.dialogFlowSessionId);
+const sessionPath = sessionClient.projectAgentSessionPath(config.googleProjectId, config.dialogFlowSessionId)
+// const sessionPath = sessionClient.sessionPath(config.googleProjectId, config.dialogFlowSessionId);
 
 module.exports = {
   textQuery: async function(text, parameters = {}) {
