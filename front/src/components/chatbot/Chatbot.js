@@ -9,20 +9,6 @@ const Chatbot = () => {
 
   const [messages, setMessages] = useState([])
 
-  // setMessages({
-  //   speaks: "aaa",
-  //   message:{
-  //     msg: {
-  //       txt: {
-  //         txt: "inferno"
-  //       }
-  //     }
-  //   }
-
-  // })
-
-  // console.log(messages)
-
 
   const df_text_query = async (queryText) => {
     let says = {
@@ -34,58 +20,72 @@ const Chatbot = () => {
       }
     }
 
-    setMessages({messages: [...messages, says]})
+    setMessages({ messages: [...messages, says] })
 
-    const res = await axios.post('/api/df_text_query', {queryText})
+    const res = await axios({ 
+      method: 'post', 
+      url: '/api/df_text_query', 
+      data: { queryText },  
+      headers: { 'Content-Type': 'text; charset=UTF-8' } 
+    })
 
     for (let msg of res.data.fulfillmentMessages) {
       says = {
         speaks: 'Íris',
-        msg:msg
+        msg: msg
       }
-      setMessages({messages: [...messages, says]});
+      setMessages({ messages: [...messages, says] });
     }
 
   }
 
   const df_event_query = async (eventName) => {
-    const res = await axios.post('/api/df_event_query', {eventName});
-
+    const res = 
+    await axios.post( '/api/df_event_query',  {event: eventName});
+    let objMessage = []
     for (let msg of res.data.fulfillmentMessages) {
       let says = {
-        speaks: 'me',
+        speaks: 'Íris',
         msg: msg
       }
-      setMessages({messages: [...messages, says]})
-    } 
+      objMessage.push(says);
+    }
+    setMessages({messages: objMessage})
   }
 
 
-    // useEffect (() => {
-    //   df_event_query('Welcome')
-    // }, [])
+  useEffect  ( () => {
+    df_event_query('Welcome')
+    df_event_query('Teste')
+  }, [])
 
-    function Test (stateMessages) {
-      if (stateMessages) {
-        return stateMessages.map((message, i) => {
-          return <Message key={i} speaks={message.speaks} text={message.msg.text.txt}/>
-        })
-      } else {
-        return null
-      }
+  function Test(stateMessages) {
+    if (stateMessages.messages) {
+
+      return Object.entries(stateMessages.messages).map((message, i) => {
+       
+        return <Message key={i} speaks={message[1]?.speaks} text={message[1]?.msg?.text?.text} />
+      })
+    } else {
+      return null
     }
+  }
 
-    console.log(messages)
+  // handleInputKeyPress((e) => { 
+     
+  // })
+
 
   return (
-    <div style={{height: 400, width: 400, float: 'right'}}>
-      <div id='chatbot' style={{height: '100%', width: '100%', overflow: 'auto'}}>
-          <h2>Chatbot</h2>
-          {Test(messages)}
-          <input type="text"/>
+    <div style={{ height: 400, width: 400, float: 'right' }}>
+      <div id='chatbot' style={{ height: '100%', width: '100%', overflow: 'auto' }}>
+        <h2>Chatbot</h2>
+
+        {messages && Test(messages)}
+        <input type="text" />
       </div>
     </div>
   )
-};
+  };
 
 export default Chatbot;

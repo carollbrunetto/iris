@@ -9,14 +9,14 @@ const App = () => {
   return (
     <div>
       <BrowserRouter>
-        <div>
+        <div className='container'>
           <Routes>
             <Route exact path="/" element={<Landing />}/>
           </Routes>
           <Chatbot/>
         </div>
       </BrowserRouter>
-      <button>aaaaaaa</button>
+      
     </div>
   )
 } 
