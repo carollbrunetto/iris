@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import Message from './Message';
 
@@ -6,9 +6,9 @@ import Message from './Message';
 
 
 const Chatbot = () => {
-
+  let messagesEnd = useRef(null);
   const [messages, setMessages] = useState([])
-
+  const [objMessage, setObjMessage] = useState([])
 
   const df_text_query = async (queryText) => {
     let says = {
@@ -19,30 +19,24 @@ const Chatbot = () => {
         }
       }
     }
+    objMessage.push(says);
+    setMessages({ messages:  objMessage});
 
-    setMessages({ messages: [...messages, says] })
-
-    const res = await axios({ 
-      method: 'post', 
-      url: '/api/df_text_query', 
-      data: { queryText },  
-      headers: { 'Content-Type': 'text; charset=UTF-8' } 
-    })
-
+    const res = await axios.post( '/api/df_text_query', { text: queryText })
+    
     for (let msg of res.data.fulfillmentMessages) {
       says = {
         speaks: 'Íris',
         msg: msg
       }
-      setMessages({ messages: [...messages, says] });
+      objMessage.push(says);
     }
+    setMessages({messages: objMessage});
 
   }
 
   const df_event_query = async (eventName) => {
-    const res = 
-    await axios.post( '/api/df_event_query',  {event: eventName});
-    let objMessage = []
+    const res = await axios.post( '/api/df_event_query',  {event: eventName});
     for (let msg of res.data.fulfillmentMessages) {
       let says = {
         speaks: 'Íris',
@@ -50,14 +44,18 @@ const Chatbot = () => {
       }
       objMessage.push(says);
     }
-    setMessages({messages: objMessage})
+    setMessages({messages:  objMessage})
   }
 
+  const scrollToBottom = () => {
+    messagesEnd.current.scrollIntoView({ behavior: "smooth" })
+  }
 
   useEffect  ( () => {
-    df_event_query('Welcome')
-    df_event_query('Teste')
-  }, [])
+    // df_event_query('Welcome')
+    // df_event_query('Teste')
+    scrollToBottom()
+  }, [messages])
 
   function Test(stateMessages) {
     if (stateMessages.messages) {
@@ -71,9 +69,12 @@ const Chatbot = () => {
     }
   }
 
-  // handleInputKeyPress((e) => { 
-     
-  // })
+  const handleInputKeyPress = ((e) => { 
+      if (e.key === 'Enter') {
+          df_text_query(e.target.value);
+          e.target.value = '';
+      }
+    })
 
 
   return (
@@ -82,7 +83,8 @@ const Chatbot = () => {
         <h2>Chatbot</h2>
 
         {messages && Test(messages)}
-        <input type="text" />
+        <div ref={messagesEnd} style={{float:"left", clear: "both"}}/>
+        <input type="text" placeholder='Digite aqui...' onKeyUp={handleInputKeyPress}/>
       </div>
     </div>
   )

@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Message = ({speaks, text}) => {
-  console.log(speaks)
+
   return (
     <div className='col s12 m8 offset-m2 offset-13'>
       <div className='card-panel grey lighten-5 z-depth-1'>
