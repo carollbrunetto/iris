@@ -1,14 +1,26 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import Message from './Message';
+import Cookies from 'universal-cookie';
+import {v4 as uuid} from 'uuid';
 
+import img from './imgs/iris-perfile.png'
+import './Chatbot.modules.css'
 
+const cookies = new Cookies();
 
 
 const Chatbot = () => {
   let messagesEnd = useRef(null);
   const [messages, setMessages] = useState([])
   const [objMessage, setObjMessage] = useState([])
+  let userId;
+
+  if  (cookies.get('userId') === undefined) {
+    cookies.set('userId', uuid(), { path: '/' });
+  }
+
+  console.log(cookies.get('userId'))
 
   const df_text_query = async (queryText) => {
     let says = {
@@ -22,7 +34,7 @@ const Chatbot = () => {
     objMessage.push(says);
     setMessages({ messages:  objMessage});
 
-    const res = await axios.post( '/api/df_text_query', { text: queryText })
+    const res = await axios.post( '/api/df_text_query', { text: queryText, userId: cookies.get(userId) })
     
     for (let msg of res.data.fulfillmentMessages) {
       says = {
@@ -36,7 +48,7 @@ const Chatbot = () => {
   }
 
   const df_event_query = async (eventName) => {
-    const res = await axios.post( '/api/df_event_query',  {event: eventName});
+    const res = await axios.post( '/api/df_event_query',  {event: eventName, userId: cookies.get(userId)});
     for (let msg of res.data.fulfillmentMessages) {
       let says = {
         speaks: 'Íris',
@@ -78,10 +90,18 @@ const Chatbot = () => {
 
 
   return (
-    <div style={{ height: 400, width: 400, float: 'right' }}>
-      <div id='chatbot' style={{ height: '100%', width: '100%', overflow: 'auto' }}>
-        <h2>Chatbot</h2>
-
+    <div className="teste">
+      <div className='chatbot-card'>
+        <div className="chatbot-header">
+          <div className="iris-header">
+            <div className='imagem'>
+              <img src={img} alt='perfil' className='iris-perfil-header'/>
+            </div>
+            <div className='nome'>
+              <p>Íris</p>
+            </div>
+          </div>
+        </div>
         {messages && Test(messages)}
         <div ref={messagesEnd} style={{float:"left", clear: "both"}}/>
         <input type="text" placeholder='Digite aqui...' onKeyUp={handleInputKeyPress}/>
