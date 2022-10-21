@@ -4,7 +4,7 @@ import Message from './Message';
 import Cookies from 'universal-cookie';
 import {v4 as uuid} from 'uuid';
 
-import img from './imgs/iris-perfile.png'
+import img from './imgs/íris.png'
 import './Chatbot.modules.css'
 
 const cookies = new Cookies();
@@ -94,6 +94,7 @@ const Chatbot = () => {
       <div className='chatbot-card'>
         <div className="chatbot-header">
           <div className="iris-header">
+            <i className='medium material-icons voltar'>chevron_left</i>
             <div className='imagem'>
               <img src={img} alt='perfil' className='iris-perfil-header'/>
             </div>
@@ -102,9 +103,12 @@ const Chatbot = () => {
             </div>
           </div>
         </div>
-        {messages && Test(messages)}
-        <div ref={messagesEnd} style={{float:"left", clear: "both"}}/>
-        <input type="text" placeholder='Digite aqui...' onKeyUp={handleInputKeyPress}/>
+        <div className='mensagens' style={{paddingTop: '25px'}}>
+          {messages && Test(messages)}
+          <div ref={messagesEnd} />
+        </div>
+
+        <input className='input-msg' type="text" placeholder='Digite aqui...' onKeyUp={handleInputKeyPress}/>
       </div>
     </div>
   )
