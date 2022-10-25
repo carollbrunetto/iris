@@ -20,7 +20,7 @@ const Chatbot = () => {
     cookies.set('userId', uuid(), { path: '/' });
   }
 
-  console.log(cookies.get('userId'))
+ 
 
   const df_text_query = async (queryText) => {
     let says = {
@@ -90,11 +90,11 @@ const Chatbot = () => {
 
 
   return (
-    <div className="teste">
+    <div className="cont">
       <div className='chatbot-card'>
         <div className="chatbot-header">
           <div className="iris-header">
-            <i className='medium material-icons voltar'>chevron_left</i>
+            <i className='material-icons voltar'>chevron_left</i>
             <div className='imagem'>
               <img src={img} alt='perfil' className='iris-perfil-header'/>
             </div>
@@ -107,8 +107,9 @@ const Chatbot = () => {
           {messages && Test(messages)}
           <div ref={messagesEnd} />
         </div>
-
-        <input className='input-msg' type="text" placeholder='Digite aqui...' onKeyUp={handleInputKeyPress}/>
+        <div className='div-input'>
+          <input className='input-msg' type="text" placeholder='Digite aqui...' onKeyUp={handleInputKeyPress}/>
+        </div>
       </div>
     </div>
   )

@@ -1,0 +1,18 @@
+h1 {
+  text-align: center;
+}
+
+label {
+  position: absolute;
+  right: 30px;
+  bottom: 20px;
+  height: 55px;
+  width: 55px;
+  background: #0071BB;
+  line-height: 55px;
+  border-radius: 50px;
+  font-size: 30px;
+  color: #fff;
+  cursor: pointer;
+  text-align: center;
+}
