@@ -69,7 +69,12 @@ const Chatbot = () => {
     scrollToBottom()
   }, [messages])
 
-  function Test(stateMessages) {
+
+  function handleQuickReplyPayload(e, payload, text) {
+    df_text_query(text);
+  }
+
+  function returnMessages(stateMessages) {
     if (stateMessages.messages) {
 
       return Object.entries(stateMessages.messages).map((message, i) => {
@@ -104,7 +109,7 @@ const Chatbot = () => {
           </div>
         </div>
         <div className='mensagens' style={{paddingTop: '25px'}}>
-          {messages && Test(messages)}
+          {messages && returnMessages(messages)}
           <div ref={messagesEnd} />
         </div>
         <div className='div-input'>
