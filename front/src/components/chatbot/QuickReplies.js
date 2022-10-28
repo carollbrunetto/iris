@@ -1,4 +1,6 @@
 import React from "react";
+import QuickReply from "./QuickReply";
+
 
 const QuickReplies = () =>{
 
@@ -7,6 +9,16 @@ const QuickReplies = () =>{
     replyClick(e, payload, text);
   }
 
+
+  return (
+    <div>
+      <div>
+        <div>
+          
+        </div>
+      </div>
+    </div>
+  )
 
 }
 

@@ -4,8 +4,10 @@ import Message from './Message';
 import Cookies from 'universal-cookie';
 import {v4 as uuid} from 'uuid';
 
-import img from './imgs/íris.png'
+
 import './Chatbot.modules.css'
+import Feedback from './Feedback';
+import Header from './Header';
 
 const cookies = new Cookies();
 
@@ -14,6 +16,9 @@ const Chatbot = () => {
   let messagesEnd = useRef(null);
   const [messages, setMessages] = useState([])
   const [objMessage, setObjMessage] = useState([])
+  const [show, setShow] = useState(true)
+  const [fbOn, setFbOn] = useState(true)
+  const [feedback, setFeedback] = useState(false)
   let userId;
 
   if  (cookies.get('userId') === undefined) {
@@ -47,7 +52,7 @@ const Chatbot = () => {
 
   }
 
-  const df_event_query = async (eventName) => {
+   const df_event_query = async (eventName) => {
     const res = await axios.post( '/api/df_event_query',  {event: eventName, userId: cookies.get(userId)});
     for (let msg of res.data.fulfillmentMessages) {
       let says = {
@@ -86,6 +91,20 @@ const Chatbot = () => {
     }
   }
 
+  function Messages () {
+    return (
+      <>
+        <div className='mensagens' style={{paddingTop: '25px'}}>
+          {messages && returnMessages(messages)}
+          <div ref={messagesEnd} />
+        </div>
+        <div className='div-input'>
+          <input className='input-msg' type="text" placeholder='Digite aqui...' onKeyUp={handleInputKeyPress}/>
+        </div>
+      </>
+    )
+  }
+
   const handleInputKeyPress = ((e) => { 
       if (e.key === 'Enter') {
           df_text_query(e.target.value);
@@ -94,29 +113,51 @@ const Chatbot = () => {
     })
 
 
+  const handleShowBot = () => {
+    console.log(show)
+    if (show) {
+      setShow(false)
+    } else {
+      setShow(true)
+    }
+  }
+
+  const handleShowFeedback = () => {
+    if (feedback) {
+      setFeedback(false)
+    } else {
+      setFeedback(true)
+    }
+
+  }
+
   return (
-    <div className="cont">
-      <div className='chatbot-card'>
-        <div className="chatbot-header">
-          <div className="iris-header">
-            <i className='material-icons voltar'>chevron_left</i>
-            <div className='imagem'>
-              <img src={img} alt='perfil' className='iris-perfil-header'/>
-            </div>
-            <div className='nome'>
-              <p>Íris</p>
-            </div>
-          </div>
-        </div>
-        <div className='mensagens' style={{paddingTop: '25px'}}>
-          {messages && returnMessages(messages)}
-          <div ref={messagesEnd} />
-        </div>
-        <div className='div-input'>
-          <input className='input-msg' type="text" placeholder='Digite aqui...' onKeyUp={handleInputKeyPress}/>
-        </div>
+    
+    <div className='chat-all'>
+      <label onClick={handleShowFeedback}>
+        <i className="material-icons janela-fb">forum</i>
+      </label>
+      <label onClick={handleShowBot}>
+        <i className="material-icons">insert_comment</i>
+      </label>
+
+   
+      <div className='cont chatbot-card'>
+        <>
+        <Header isFeedback={feedback}/>
+       
+        {!feedback &&  (
+          <Messages/>
+        )}
+
+        {feedback &&  (
+          <Feedback userId={userId}/>
+        )}
+      </>
       </div>
+   
     </div>
+
   )
   };
 
