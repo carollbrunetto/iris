@@ -3,8 +3,6 @@ h1 {
 }
 
 
-
-
 label {
   position: absolute;
   right: 30px;
@@ -20,17 +18,3 @@ label {
   text-align: center;
 }
 
-.janela-fb {
-  position: absolute;
-  line-height: 55px;
-  right: 0.5px;
-  bottom: 60px;
-  height: 55px;
-  width: 55px;
-  background: #0071BB;
-  border-radius: 50px;
-  font-size: 30px;
-  color: #fff;
-  cursor: pointer;
-  text-align: center;
-}

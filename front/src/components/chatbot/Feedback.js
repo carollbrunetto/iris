@@ -14,6 +14,7 @@ const Feedback = ({userId}) => {
 
   const df_event_query = async (eventName) => {
     const res = await axios.post( '/api/df_event_query',  {event: eventName, userId: cookies.get(userId)});
+    console.log(res)
     for (let msg of res.data.fulfillmentMessages) {
       let says = {
         speaks: 'Íris',

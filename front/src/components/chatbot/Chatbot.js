@@ -131,33 +131,22 @@ const Chatbot = () => {
 
   }
 
-  return (
+  return  (
     
     <div className='chat-all'>
-      <label onClick={handleShowFeedback}>
-        <i className="material-icons janela-fb">forum</i>
-      </label>
       <label onClick={handleShowBot}>
         <i className="material-icons">insert_comment</i>
       </label>
 
-   
-      <div className='cont chatbot-card'>
-        <>
-        <Header isFeedback={feedback}/>
-       
-        {!feedback &&  (
-          <Messages/>
-        )}
+      {show && (
+        
+        <div className='cont chatbot-card'>
+          <Header isFeedback={feedback} setFeedback={handleShowFeedback}/>
+          {feedback ? <Feedback userId={userId}/> :  <Messages/>}
+        </div>
+      )}
 
-        {feedback &&  (
-          <Feedback userId={userId}/>
-        )}
-      </>
-      </div>
-   
     </div>
-
   )
   };
 
