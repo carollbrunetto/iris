@@ -73,20 +73,22 @@ const Chatbot = () => {
   // }
 
   useEffect  ( () => {
-    // df_event_query('Welcome')
+    df_event_query('Welcome')
     // df_event_query('Teste')
     messagesEnd.current?.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest"})
-  }, [messages])
+  }, [])
 
 
   const messagesQuickReplies = ((stateMessages, i) => {
+    console.log(stateMessages)
     if (stateMessages[1]?.msg && stateMessages[1]?.msg?.text && stateMessages[1]?.msg?.text?.text) {
       console.log('entrou')
+      
       return <Message key={i} speaks={stateMessages[1]?.speaks} text={stateMessages[1]?.msg?.text?.text} />
-    } else if (messages.msg &&
-      messages.msg.payload &&
-      messages.msg.payload.fields &&
-      messages.msg.payload.fields.quick_replies
+    } else if (stateMessages?.msg &&
+      stateMessages?.msg?.payload &&
+      stateMessages?.msg?.payload?.fields &&
+      stateMessages?.msg?.payload?.fields?.quick_replies
       ) {
         console.log('entrou aqui')
         return <QuickReplies
@@ -96,7 +98,7 @@ const Chatbot = () => {
           speaks={messages.speaks}
           payload={messages.msg.payload.fields.quick_replies.listValue.values}/>
       }
-  })
+    })
 
   function handleQuickReplyPayload(e, payload, text) {
     df_text_query(text);
@@ -139,7 +141,7 @@ const Chatbot = () => {
 
 
   const handleShowBot = () => {
-    console.log(show)
+    
     if (show) {
       setShow(false)
     } else {

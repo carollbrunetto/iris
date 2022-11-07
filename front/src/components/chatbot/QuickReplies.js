@@ -15,15 +15,17 @@ const QuickReplies = (props) => {
 
 
   function renderQuickReplies (quickReplies) {
+    console.log(quickReplies)
+    console.log('aqui entrou')
     if (quickReplies) {
       return quickReplies.map((reply, i) => {
-        return renderQuickReplies(reply, i)
+        return renderQuickReply(reply, i)
       })
     } else {
       return null;
     }
   }
-
+  console.log(props.payload)
   return (
     <div className="wrapper">
       <div className="panel">
@@ -31,7 +33,8 @@ const QuickReplies = (props) => {
           <div className=''>
             <img src={img} alt='perfil' className='iris-perfil'/>
           </div> 
-          <div>
+          <div className="quick-replies">
+            <p>aqui tem quick reply</p>
             {props.text && 
               <p>
                 {props.text.stringValue}

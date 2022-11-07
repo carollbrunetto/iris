@@ -3,14 +3,14 @@ import React from "react";
 
 const QuickReply = (props) => {
 
-  if (props.reply.structValue.fields.stringValue) {
-
+  if (props.reply.structValue.fields.payload) {
+    console.log('entrou?')
     return (
       <button href='/' 
         onClick={(e) => props.click(
           e,
-          props.reply.structValue.fields.payload.stringValue,
-          props.reply.structValue.fields.text.stringValue
+          props.reply?.structValue?.fields?.payload?.stringValue,
+          props.reply?.structValue?.fields?.text?.stringValue
         )
         }
       >
@@ -20,7 +20,9 @@ const QuickReply = (props) => {
 
   }else {
     return (
-      <button href=' '>{props.reply.structValue.fields.text.stringValue}</button>
+      <button href={props.reply.structValue.fields.link.stringValue}>
+        {props.reply.structValue.fields.text.stringValue}
+      </button>
     )
   }
 }

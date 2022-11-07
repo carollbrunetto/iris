@@ -3,6 +3,7 @@ import Message from './Message';
 import './Chatbot.modules.css'
 import axios from 'axios';
 import Cookies from 'universal-cookie';
+import QuickReplies from './QuickReplies';
 
 const cookies = new Cookies();
 
@@ -26,6 +27,32 @@ const Feedback = ({userId}) => {
     setMessages({messages:  objMessage})
   }
 
+
+  const df_text_query = async (queryText) => {
+    let says = {
+      speaks: 'me',
+      msg: {
+        text: {
+          text: queryText
+        }
+      }
+    }
+    objMessage.push(says);
+    setMessages({ messages:  objMessage});
+
+    const res = await axios.post( '/api/df_text_query', { text: queryText, userId: cookies.get(userId) })
+    
+    for (let msg of res.data.fulfillmentMessages) {
+      says = {
+        speaks: 'Íris',
+        msg: msg
+      }
+      objMessage.push(says);
+    }
+    setMessages({messages: objMessage});
+
+  }
+
   const scrollToBottom = () => {
     messagesEnd.current.scrollIntoView({ behavior: "smooth" })
   }
@@ -36,19 +63,43 @@ const Feedback = ({userId}) => {
     // scrollToBottom()
   }, [])
 
+  function handleQuickReplyPayload(e, payload, text) {
+    df_text_query(text);
+  }
+
+  function messagesQuickReplies(stateMessages, i) {
+    if (stateMessages[1]?.msg && stateMessages[1]?.msg?.text && stateMessages[1]?.msg?.text?.text) {
+        console.log('entrou')
+        return <Message key={i} speaks={stateMessages[1]?.speaks} text={stateMessages[1]?.msg?.text?.text} />
+      } else if (stateMessages[1]?.msg &&
+        stateMessages[1]?.msg?.payload &&
+        stateMessages[1]?.msg?.payload?.fields &&
+        stateMessages[1]?.msg?.payload?.fields?.quick_replies
+        ) {
+          console.log('entrou aqui')
+          return <QuickReplies
+            text={messages?.msg?.payload?.fields?.text ? messages?.msg?.payload?.fields?.text?.stringValue : null}
+            key={i}
+            replyClick={handleQuickReplyPayload}
+            speaks={messages.speaks}
+            payload={messages?.msg?.payload?.fields?.quick_replies?.listValue.values}/>
+        }
+  }
 
   function returnMessages(stateMessages) {
+    // console.log(stateMessages)
+    if (stateMessages.messages ) {
     
-    if (stateMessages.messages) {
-
       return Object.entries(stateMessages.messages).map((message, i) => {
-        console.log(message)
-        return <Message key={i} speaks={message[1]?.speaks} text={message[1]?.msg?.text?.text} />
+        // console.log('messages', messages)
+        return messagesQuickReplies(message, i)
+       
       })
     } else {
       return null
     }
   }
+    
 
   return (
       <div>
