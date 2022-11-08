@@ -1,6 +1,6 @@
 import React from "react";
 import QuickReply from "./QuickReply";
-import img from './imgs/íris.png'
+
 
 const QuickReplies = (props) => {
 
@@ -15,8 +15,6 @@ const QuickReplies = (props) => {
 
 
   function renderQuickReplies (quickReplies) {
-    console.log(quickReplies)
-    console.log('aqui entrou')
     if (quickReplies) {
       return quickReplies.map((reply, i) => {
         return renderQuickReply(reply, i)
@@ -25,16 +23,12 @@ const QuickReplies = (props) => {
       return null;
     }
   }
-  console.log(props.payload)
+ 
   return (
     <div className="wrapper">
       <div className="panel">
         <div className="panel-wrapper">
-          <div className=''>
-            <img src={img} alt='perfil' className='iris-perfil'/>
-          </div> 
-          <div className="quick-replies">
-            <p>aqui tem quick reply</p>
+          <div className="div-quickReplies">
             {props.text && 
               <p>
                 {props.text.stringValue}

@@ -4,9 +4,8 @@ import React from "react";
 const QuickReply = (props) => {
 
   if (props.reply.structValue.fields.payload) {
-    console.log('entrou?')
     return (
-      <button href='/' 
+      <button className= 'quick-replies' href='/' 
         onClick={(e) => props.click(
           e,
           props.reply?.structValue?.fields?.payload?.stringValue,
@@ -18,7 +17,7 @@ const QuickReply = (props) => {
       </button>
     )
 
-  }else {
+  } else {
     return (
       <button href={props.reply.structValue.fields.link.stringValue}>
         {props.reply.structValue.fields.text.stringValue}

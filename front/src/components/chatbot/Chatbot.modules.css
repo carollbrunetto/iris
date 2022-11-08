@@ -170,6 +170,28 @@
    margin-top: -0.2rem;
 }
 
+
+
+.quick-replies {
+   border-radius: 20px;
+   width: 68px;
+   height: 28px;
+   display: inline;
+   margin-left: 1em;
+   margin-right: 1em;
+   border: 1px solid #0071BB;
+   color: #0071BB;
+   background-color: #fff;
+
+}
+
+.div-quickReplies {
+  display: flex;
+  padding: 0.2em;
+  justify-content: center;
+  margin-bottom: 1em; 
+}
+
 @media  (min-width: 360px) and (max-width: 700px){
    .cont {
       width: auto;

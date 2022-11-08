@@ -64,25 +64,18 @@ const Chatbot = () => {
     setMessages({messages:  objMessage})
   }
 
-  const autoscroll = () => {
-    const newMessage = messages.lastElementChild;
-
-  }
-  // const scrollToBottom = () => {
-   
-  // }
 
   useEffect  ( () => {
-    df_event_query('Welcome')
+   
     // df_event_query('Teste')
     messagesEnd.current?.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest"})
-  }, [])
+  }, [messages])
 
 
   const messagesQuickReplies = ((stateMessages, i) => {
     console.log(stateMessages)
     if (stateMessages[1]?.msg && stateMessages[1]?.msg?.text && stateMessages[1]?.msg?.text?.text) {
-      console.log('entrou')
+
       
       return <Message key={i} speaks={stateMessages[1]?.speaks} text={stateMessages[1]?.msg?.text?.text} />
     } else if (stateMessages?.msg &&
@@ -90,7 +83,7 @@ const Chatbot = () => {
       stateMessages?.msg?.payload?.fields &&
       stateMessages?.msg?.payload?.fields?.quick_replies
       ) {
-        console.log('entrou aqui')
+       
         return <QuickReplies
           text={messages.msg.payload.fields.text ? messages.msg.payload.fields.text : null}
           key={i}
@@ -105,11 +98,10 @@ const Chatbot = () => {
   }
 
   function returnMessages(stateMessages) {
-    // console.log(stateMessages)
+    
     if (stateMessages.messages ) {
     
       return Object.entries(stateMessages.messages).map((message, i) => {
-        // console.log('messages', messages)
         return messagesQuickReplies(message, i)
        
       })
