@@ -13,8 +13,8 @@ const QuickReplies = (props) => {
     return <QuickReply key={i} click={handleClick} reply={reply}/>
   }
 
-
   function renderQuickReplies (quickReplies) {
+    console.log("quick replies: ", quickReplies)
     if (quickReplies) {
       return quickReplies.map((reply, i) => {
         return renderQuickReply(reply, i)
@@ -24,6 +24,7 @@ const QuickReplies = (props) => {
     }
   }
  
+  console.log(props.payload)
   return (
     <div className="wrapper">
       <div className="panel">

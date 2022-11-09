@@ -94,6 +94,8 @@ const Chatbot = () => {
     })
 
   function handleQuickReplyPayload(e, payload, text) {
+    e.preventDefault();
+    e.stopPropagation();
     df_text_query(text);
   }
 

@@ -75,8 +75,9 @@ const Feedback = ({userId}) => {
         stateMessages[1]?.msg?.payload?.fields &&
         stateMessages[1]?.msg?.payload?.fields?.quick_replies
         ) {
-          console.log(stateMessages[1]?.msg?.payload?.fields?.text?.stringValue)
+          
           console.log('entrou')
+          console.log(stateMessages)
           return <QuickReplies
             text={stateMessages[1]?.msg?.payload?.fields?.text ? stateMessages[1]?.msg?.payload?.fields?.text?.stringValue : null}
             key={i}

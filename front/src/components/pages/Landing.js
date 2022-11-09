@@ -1,13 +1,13 @@
 import React from "react";
 import './Landing.css'
-
+import img from "./imgs/atena.png"
 
 
 const Landing = () => {
   return (
     <div className='wrapper'>
       <div className="titulo">
-        <h1>Aqui é pra ser o atena</h1>
+        <img className= "atena" src={img}/>
       </div>
     </div>
   )
